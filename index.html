@@ -34,57 +34,47 @@
         }
     </style>
     <script>
-        const ans = ["",
-            "ウ、エ",
-            "施設Kの外から、鍵管理",
-            "エ",
-            "エ", "ア", "イ", "ア", "ア", "エ",
-            "イ", "ア", "ア", "イ", "エ", "イ", "エ", "ア", "ア", "イ", "ウ", "エ",
-            "イ", "ウ", "ウ", "エ"];
-        function chkResult() {
-            let ret = document.result.sel.value;
-            let num = +(((document.getElementById("qs").src).slice(-6)).replace(/[^0-9]/g, ''));
-            console.log(ret);
-            if (ans[num] === ret) {
-                document.getElementById("answer").style = "display: block;";
+        const qsInfo = [
+            { qsCnt: 6, ansCnt: 1 },
+            { qsCnt: 7, ansCnt: 1 },
+            { qsCnt: 11, ansCnt: 1 },
+            { qsCnt: 10, ansCnt: 1 }
+        ];
+        var cnt = 0;
+
+        function createQs(num) {
+            let qsElement = document.getElementById("question");
+            qsElement.innerHTML = "";
+            for (let i = 0; i < qsInfo[num].qsCnt; i++) {
+                qsElement.innerHTML += '<img src="images/' + (num + 1) + '/' + (i + 1) + '.png" alt="">';
+            }
+        }
+        function createAns(num) {
+            let ansElement = document.getElementById("answer");
+            ansElement.innerHTML = "";
+            for (let i = 0; i < qsInfo[num].ansCnt; i++) {
+                ansElement.innerHTML += '<img src="images/' + (num + 1) + '/a' + (i + 1) + '.png" alt="">';
             }
         }
         function nextQs() {
             console.log("nextqs");
-            for (let i = 0; i < document.result.sel.length; i++) {
-                document.result.sel[i].checked = false;
-            }
-            let next = +(((document.getElementById("qs").src).slice(-6)).replace(/[^0-9]/g, '')) + 1;
-            document.getElementById("answer").style = "display: none;";
-            if (ans.length <= next) {
-                document.getElementById("qs").src = "images/q1.png";
-            }
-            else {
-                document.getElementById("qs").src = "images/q" + next + ".png";
-                document.getElementById("answer").children[1].src = "images/a" + next + ".txt";
-            }
-
+            createQs(cnt);
+            createAns(cnt);
+            cnt++;
+            if (cnt >= qsInfo.length) cnt = 0;
         }
 
     </script>
 </head>
 
-<body>
+<body onload="nextQs();">
     <header>
         <h1>令和７年度　秋期　PM/DB/ES/AU/SC　午後　問題【共通】</h1>
     </header>
     <main>
-        <p>
-            <img src="images/01.png" alt="問題本文">
-            <img src="images/02.png" alt="問題本文">
-            <img src="images/03.png" alt="問題本文">
-            <img src="images/04.png" alt="問題本文">
-            <img src="images/05.png" alt="問題本文">
-            <img src="images/06.png" alt="問題本文">
+        <p id="question">
         </p>
-        <p id="answer">
-            解答<br>
-            <img src="images/1bcfdc3e-1.png" alt="">
+        <p id="answer" onclick="nextQs();">
         </p>
     </main>
     <footer>
